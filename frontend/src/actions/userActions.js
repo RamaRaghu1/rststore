@@ -251,7 +251,7 @@ export const getUserDetail = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get("/api/users/profile", config);
+    const { data } = await axios.get(`/api/users/${id}`, config);
 
     dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
   } catch (err) {
