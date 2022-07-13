@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { updateUser } from "../actions/userActions";
+import { getUserDetail, updateUser } from "../actions/userActions";
 import { USER_UPDATE_RESET } from "../constants/userConstants";
 
 const UserEditScreen = () => {
@@ -41,18 +41,16 @@ const UserEditScreen = () => {
     if (successUpdate) {
       dispatch({ type: USER_UPDATE_RESET });
       navigate("/admin/userlist");
-    }
-  }, [dispatch, successUpdate, navigate]);
-
-  useEffect(() => {
-    if (!user.name && user._id !== userId) {
-      dispatch(getUserById(user._id));
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setIsAdmin(user.isAdmin);
+      if (!user.name || user._id !== userId) {
+        dispatch(getUserDetail(userId));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+        setIsAdmin(user.isAdmin);
+      }
     }
-  }, [user, userId, dispatch]);
+  }, [dispatch, successUpdate, navigate, user, userId, dispatch]);
 
   const submitHandler = (e) => {
     e.preventDefault();

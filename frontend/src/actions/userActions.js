@@ -25,9 +25,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
-  // USER_INFO_REQUEST,
-  // USER_INFO_SUCCESS,
-  // USER_INFO_FAIL,
+  USER_DETAIL_REQUEST,
+  USER_DETAIL_SUCCESS,
+  USER_DETAIL_FAIL,
 } from "../constants/userConstants";
 import { ORDER_MY_LIST_RESET } from "../constants/orderConstants";
 
@@ -237,30 +237,30 @@ export const updateUser = (user) => async (dispatch, getState) => {
   }
 };
 
-// export const getUserById = (id) => async (dispatch, getState) => {
-//   try {
-//     dispatch({ type: USER_INFO_REQUEST });
+export const getUserDetail = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_DETAIL_REQUEST });
 
-//     const {
-//       userLogin: { userInfo }, //2 level destructuring
-//     } = getState();
+    const {
+      userLogin: { userInfo }, //2 level destructuring
+    } = getState();
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-//     const { data } = await axios.get("/api/users/profile", config);
+    const { data } = await axios.get("/api/users/profile", config);
 
-//     dispatch({ type: USER_INFO_SUCCESS, payload: data });
-//   } catch (err) {
-//     dispatch({
-//       type: USER_INFO_FAIL,
-// //       payload:
-//         err.response && err.response.data.message
-//           ? err.response.data.message
-//           : err.message,
-//     });
-//   }
-// };
+    dispatch({ type: USER_DETAIL_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: USER_DETAIL_FAIL,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
